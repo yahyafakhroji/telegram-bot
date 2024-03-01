@@ -15,6 +15,7 @@ RUN npm run build
 FROM node:lts-slim
 
 ENV NODE_ENV production
+
 USER node
 
 # Create app directory
@@ -27,5 +28,7 @@ RUN npm ci --production
 
 COPY --from=builder /usr/src/app/dist ./dist
 
+RUN npm install pm2 -g
+
 EXPOSE 8080
-CMD [ "node", "dist/main.js" ]
+CMD [ "pm2-runtime", "dist/main.js" ]
