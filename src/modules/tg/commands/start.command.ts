@@ -30,7 +30,7 @@ export class StartCommand extends AbstractCommand {
       message += 'Make payment by click <b>Pay Now</b> button.';
 
       ctx.replyWithPhoto(
-        { source: './public/images/air-jordan.jpeg' },
+        { url: 'https://i.ibb.co/s1PYs1v/air-jordan.jpg' },
         {
           caption: message,
           parse_mode: 'HTML',
