@@ -8,16 +8,17 @@ export class StartCommand extends AbstractCommand {
     super(bot);
   }
 
-  async getProducts() {
-    const res = await fetch('https://api.muggle.link/api/products/283a8736-004e-4b72-a871-149dc8303576');
+  async getData() {
+    const res = await fetch(
+      'https://api.muggle.link/api/products/283a8736-004e-4b72-a871-149dc8303576',
+    );
     const { data } = await res.json();
-    return data.product;
+    return data;
   }
 
   async handler() {
-    const product = await this.getProducts();
-    
-      
+    const { product, id } = await this.getData();
+
     let message = '<b>Thank you for your order!</b>\n\n';
     message +=
       'This message confirms your order with <b>Molla, inc</b>. Your order number is <a href="https://www.google.com/search?q=12345">#12345</a>.\n\n';
@@ -38,8 +39,6 @@ export class StartCommand extends AbstractCommand {
     message += '<b> - Payment Method:</b> <i>Muggle Link</i>\n\n';
     message += 'Make payment by click <b>Pay Now</b> button.';
     this.bot.start(async (ctx) => {
-      
-
       ctx.replyWithPhoto(
         { url: product.image_url },
         {
@@ -48,7 +47,7 @@ export class StartCommand extends AbstractCommand {
           ...Markup.inlineKeyboard([
             Markup.button.webApp(
               '💸 Pay Now',
-              'https://pay.muggle.link/?pid=283a8736-004e-4b72-a871-149dc8303576',
+              `https://pay.muggle.link/?pid=${id}`,
             ),
           ]),
         },
