@@ -1,7 +1,6 @@
 import { Telegraf } from 'telegraf';
 import LocalSession from 'telegraf-session-local';
 import { StartCommand } from './commands/start.command';
-import { tgConfig } from '@config/tg';
 import { IBotContext } from './interfaces/context.interface';
 import { AbstractCommand } from './commands/abstract.command';
 
@@ -10,10 +9,10 @@ export class TgBot {
   commands: AbstractCommand[] = [];
 
   constructor() {
-    this.bot = new Telegraf<IBotContext>(tgConfig.TOKEN);
+    this.bot = new Telegraf<IBotContext>(process.env.TELEGRAM_TOKEN);
     this.bot.use(
       new LocalSession({
-        database: `./${tgConfig.SESSION_FILE}`,
+        database: './tg-session.json',
       }).middleware(),
     );
   }
